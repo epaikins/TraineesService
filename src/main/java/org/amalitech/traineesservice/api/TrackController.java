@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.amalitech.traineesservice.dto.TrackDTO;
 import org.amalitech.traineesservice.entity.Track;
+import org.amalitech.traineesservice.entity.Trainee;
 import org.amalitech.traineesservice.service.TrackService;
+import org.amalitech.traineesservice.service.TraineeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,5 +48,10 @@ public class TrackController {
 	@DeleteMapping("/track/{id}")
 	public void deleteTrack(@PathVariable(name="id") Integer id) {
 		trackService.deleteTrack(id);
+	}
+	
+	@PutMapping("/track/{trackId}/trainee/{traineeId}")
+	public void enrollTraineeToTrack(@PathVariable Integer trackId, @PathVariable Integer traineeId) {
+		trackService.enrollTraineeToTrack(trackId, traineeId);
 	}
 }

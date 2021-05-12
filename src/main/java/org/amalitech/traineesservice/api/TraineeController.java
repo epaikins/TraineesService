@@ -1,9 +1,15 @@
 package org.amalitech.traineesservice.api;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.amalitech.traineesservice.dto.TraineeDTO;
+import org.amalitech.traineesservice.entity.Track;
 import org.amalitech.traineesservice.entity.Trainee;
+import org.amalitech.traineesservice.repository.TraineeTrackRepository;
+import org.amalitech.traineesservice.service.TrackService;
 import org.amalitech.traineesservice.service.TraineeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +32,38 @@ public class TraineeController {
 	private TraineeService traineeService;
 	
 	@Autowired
+	private TrackService trackService;
+	
+	@Autowired
+	private TraineeTrackRepository traineeTrackRepository;
+	
+	@Autowired
 	private ModelMapper modelmapper;
 	
 	@GetMapping("/trainees")
 	public List<Trainee> getTrainees(){
 		return traineeService.getTrainees();
 	}
+	
+	@GetMapping("/trainee/{id}")
+	public TraineeDTO getTraineeById(@PathVariable int id){
+		Trainee trainee = traineeService.getTraineeById(id);
+		List<Integer> trackIds = new ArrayList<>();
+		try {
+			trackIds.addAll(traineeTrackRepository.getTracksWithTrainee(id));
+			List<Track> tracks = trackIds.stream().map(x -> trackService.getTrack(x)).collect(Collectors.toList());
+			
+			TraineeDTO traineeDTO = modelmapper.map(trainee, TraineeDTO.class);
+			traineeDTO.setTracks(tracks);
+			return traineeDTO;
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 	@PostMapping("/trainees")
 	public Trainee createTrainee(@RequestBody TraineeDTO traineeDTO) {

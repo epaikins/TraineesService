@@ -29,10 +29,19 @@ public class TraineeService {
 		BeanUtils.copyProperties(trainee, traineeFound);
 		
 		return traineeRepository.save(traineeFound);
+	
 	}
 	
 	public void deleteTrainee(Integer id) {
 		traineeRepository.deleteById(id);
 	}
 
+	public Trainee getTrainee(Integer id) {
+		return traineeRepository.findById(id).get();
+	}
+
+	public Trainee getTraineeById(int id) {
+		return traineeRepository.findById(id).get();
+	}
+	
 }
