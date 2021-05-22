@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.amalitech.traineesservice.enums.BatchStatus;
+
 import lombok.Data;
 
 @Entity
@@ -16,10 +18,10 @@ public class Batch {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(unique = true)
 	private String name;
-	private Boolean isActivated = false;
+	private BatchStatus batchStatus = BatchStatus.inactivated;
 	private LocalDate beginningDate;
 	private LocalDate endingDate;
 }

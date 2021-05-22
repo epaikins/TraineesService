@@ -9,16 +9,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
-public class TraineeTrackId implements Serializable{
-	@Column(name="trainee_id")
+public class TraineeTrackId implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8489137992225802185L;
+
+	@Column(name = "trainee_id")
 	private Integer traineeId;
-	
-	@Column(name="track_id")
+
+	@Column(name = "track_id")
 	private Integer trackId;
-	
+
 }
